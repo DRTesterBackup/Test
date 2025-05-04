@@ -25,7 +25,7 @@ Players.PlayerAdded:Connect(function(player)
         -- Example: Monitor WalkSpeed
         humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
             if humanoid.WalkSpeed > 16 then -- Default WalkSpeed is 16
-                suspiciousLogs[player.UserId] += 1
+                suspiciousLogs[player.UserId] = suspiciousLogs[player.UserId] + 1
                 print("Cheating detected: " .. player.Name .. " - Illegal WalkSpeed")
                 if suspiciousLogs[player.UserId] > 3 then
                     player:Kick("Cheating detected: Multiple offenses")
@@ -36,7 +36,7 @@ Players.PlayerAdded:Connect(function(player)
         -- Example: Monitor JumpPower
         humanoid:GetPropertyChangedSignal("JumpPower"):Connect(function()
             if humanoid.JumpPower > 50 then -- Default JumpPower is 50
-                suspiciousLogs[player.UserId] += 1
+                suspiciousLogs[player.UserId] = suspiciousLogs[player.UserId] + 1
                 print("Cheating detected: " .. player.Name .. " - Illegal JumpPower")
                 if suspiciousLogs[player.UserId] > 3 then
                     player:Kick("Cheating detected: Multiple offenses")
@@ -51,7 +51,7 @@ Players.PlayerAdded:Connect(function(player)
                 task.wait(1)
                 local currentPosition = character.PrimaryPart.Position
                 if (currentPosition - lastPosition).Magnitude > 100 then -- Example threshold
-                    suspiciousLogs[player.UserId] += 1
+                    suspiciousLogs[player.UserId] = suspiciousLogs[player.UserId] + 1
                     print("Cheating detected: " .. player.Name .. " - Teleportation")
                     if suspiciousLogs[player.UserId] > 3 then
                         player:Kick("Cheating detected: Multiple offenses")
@@ -65,7 +65,7 @@ end)
 -- Handle suspicious activity reports from clients
 reportEvent.OnServerEvent:Connect(function(player, message)
     print("Suspicious activity reported by " .. player.Name .. ": " .. message)
-    suspiciousLogs[player.UserId] += 1
+    suspiciousLogs[player.UserId] = suspiciousLogs[player.UserId] + 1
     if suspiciousLogs[player.UserId] > 3 then
         player:Kick("Cheating detected: Multiple offenses")
     end
